@@ -17,6 +17,16 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Package Installations
 
+```{r}
+set.seed(2)
+
+library(ggplot2)
+library(dplyr)
+library(infer)
+```
+
+## Creating Data-frame
+
 ```{r cars}
 sdata <- read.csv("2021_rws.csv", header = TRUE, sep = ",")
 
