@@ -38,6 +38,16 @@ sdata <- read.csv("2021_rws.csv", header = TRUE, sep = ",")
 head(sdata)
 ```
 
+Crafting a new data frame for only those employees who have worked remotely in the past six months, and removing all ID numbers.
+
+```{r}
+recent_RW <- sdata %>%
+  filter(worked_RW_past_six_months == "Yes") %>%
+  select(-ID)
+
+recent_RW
+```
+
 ## Including Plots
 
 You can also embed plots, for example:
