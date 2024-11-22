@@ -43,9 +43,14 @@ Crafting a new data frame for only those employees who have worked remotely in t
 ```{r}
 recent_RW <- sdata %>%
   filter(worked_RW_past_six_months == "Yes") %>%
-  select(-ID)
+  select(birth_year, gender, yr_experience, household_size, metro_regional, frequency_RW, perc_required_onsite, six_months_collaborate_easily_RW, hybrid_biggest_barriers_one, hybrid_smallest_barriers_one, feel_better_when_RW, feel_better_seeing_colleagues_onsite, more_active_when_RW, team_works_well_RW, productivity_RW, easy_to_contact_employees_RW)
 
 recent_RW
+```
+
+```{r}
+recent_RW_tidy <- recent_RW %>%
+  pivot_longer()
 ```
 
 ## Including Plots
