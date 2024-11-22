@@ -1,0 +1,33 @@
+---
+title: "NSW-500"
+author: "Paris Heard" 
+date: "`r Sys.Date()`"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Learning Objectives
+
+-   Understand the relationship between reported effective collaboration and remote work
+-   Explore the relationship between leadership, team culture, and the effectiveness of collaboration
+-   Gain insight into the desires of the average employee, by industry
+
+## Package Installations
+
+```{r cars}
+sdata <- read.csv("2021_rws.csv", header = TRUE, sep = ",")
+
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
