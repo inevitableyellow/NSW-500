@@ -90,5 +90,11 @@ list("Ease of Remote Collaboration", x=unit(.62, "npc")), auto.key = list(column
 reverse.rows = T))
 
 likert1
-png("../NSW-500/likert_1.png", height=720, width=1080)
+
+png("../NSW-500/output/likert_1.png", height=720, width=1080)
+
+likert1
+dev.off()
+
+
 ```
