@@ -24,6 +24,13 @@ library(tidyverse)
 library(ggplot2)
 library(dplyr)
 library(infer)
+library(HH)
+library(likert)
+library(foreign)
+library(colorspace)
+library(RColorBrewer)
+library(grid)
+library(knitr)
 ```
 
 ## Creating Data-frame
@@ -43,22 +50,45 @@ Crafting a new data frame for only those employees who have worked remotely in t
 ```{r}
 recent_RW <- sdata %>%
   filter(worked_RW_past_six_months == "Yes") %>%
-  select(birth_year, gender, yr_experience, household_size, metro_regional, frequency_RW, perc_required_onsite, six_months_collaborate_easily_RW, hybrid_biggest_barriers_one, hybrid_smallest_barriers_one, feel_better_when_RW, feel_better_seeing_colleagues_onsite, more_active_when_RW, team_works_well_RW, productivity_RW, easy_to_contact_employees_RW)
+  dplyr::select(birth_year, gender, yr_experience, household_size, metro_regional, frequency_RW, perc_required_onsite, six_months_collaborate_easily_RW, hybrid_biggest_barriers_one, hybrid_smallest_barriers_one, feel_better_when_RW, feel_better_seeing_colleagues_onsite, more_active_when_RW, team_works_well_RW, productivity_RW, easy_to_contact_employees_RW) %>%
+  mutate(across(where(~all(str_detect(.,"%"))), parse_number))
 
 recent_RW
 ```
 
+## Fitting Regression Models
+
+### Remote Work Frequency & Team Collaboration
+
+Does the frequency of remote work relate to perceived ability to collaborate among a team? Let's fit a regression model to observe the relationship.
+
 ```{r}
-recent_RW_tidy <- recent_RW %>%
-  pivot_longer()
+collab_frq_model <- lm(six_months_collaborate_easily_RW ~ frequency_RW, data = recent_RW)
+get_regression_table(collab_frq_model)
 ```
 
-## Including Plots
+In order to visualize the collaboration responses in likert format, we will need to do a bit of data wrangling. Let's select our target variables and pivot likert responses to a wider format.
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+collab_freq <- recent_RW %>%
+  dplyr::select(six_months_collaborate_easily_RW, frequency_RW) %>%
+  group_by(six_months_collaborate_easily_RW, frequency_RW) %>%
+  pivot_wider(names_from = "six_months_collaborate_easily_RW", 
+              values_from = "six_months_collaborate_easily_RW", 
+              values_fn = function(x) sum(!is.na(x)), values_fill = 0) %>%
+  arrange(desc(frequency_RW))
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+# likert1 <- likert(frequency_RW~., collab_freq, 
+#                 ReferenceZero=3, 
+#                 ylab = "Frequency of Remote Work", 
+#                 main = list("Collaboration Success", x = unit(.62, "npc")), 
+#                 auto.key = list(columns = 2, reverse.rows = T))
+likert1 <- HH::likert(frequency_RW~., collab_freq, ReferenceZero=3, ylab = "Remote Work Frequency", main =
+list("Ease of Remote Collaboration", x=unit(.62, "npc")), auto.key = list(columns = 2,
+reverse.rows = T))
+
+likert1
+png("../NSW-500/likert_1.png", height=720, width=1080)
+```
