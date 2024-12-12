@@ -58,8 +58,8 @@ Ordinal logistic regression was ran twice: once for the relationship between col
 
 ## Deliverables
 
--   [Slide Deck](link)
--   [Report](link)
+-   [Slide Deck](https://docs.google.com/presentation/d/1Ggp9hzDON_ib-6WUbF4oA5YZXz-Fw-vMIC-jFRK5fBU/edit?usp=sharing)
+-   [Report](https://docs.google.com/document/d/16Q4KeQRNkGxpJYupmyMmJRMOYM0ik94U9C5_8HWTNvU/edit?usp=sharing)
 
 ## Contributing Members
 
