@@ -604,6 +604,27 @@ ggplot(data = rank, aes(x = pared_wellness, y = freq_RW)) +
 
 ## Output Data for Datawrapper
 
+Collaboration and Remote Work Frequency
+
 ```{r}
 write.csv(collab_freq_use,"~/Downloads/collab_freq_use.csv", row.names = TRUE)
+```
+
+Wellness and Remote Work Frequency
+
+```{r}
+wellness_freq <- recent_RW %>%
+  dplyr::select(feel_better_when_RW, frequency_RW) %>%
+  group_by(feel_better_when_RW, frequency_RW) %>%
+  pivot_wider(names_from = "feel_better_when_RW", 
+              values_from = "feel_better_when_RW", 
+              values_fn = function(x) sum(!is.na(x)), values_fill = 0) %>%
+  arrange(desc(frequency_RW))
+
+wellness_freq_use <- wellness_freq %>%
+  dplyr::relocate(6, 2, 4, 3, 5)
+```
+
+```{r}
+write.csv(wellness_freq_use, "~/Downloads/wellness_freq_use.csv", row.names = TRUE)
 ```
